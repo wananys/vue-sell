@@ -36,10 +36,10 @@
           <ratingselect :select-type="selectType" :only-content="onlyContent" :desc="desc" :ratings="food.ratings"></ratingselect>
           <div class="rating-wrapper">
             <ul v-show="food.ratings && food.ratings.length">
-              <li v-for="rating in food.ratings" class="rating-item">
+              <li v-for="rating in food.ratings" class="rating-item border-1px">
                 <div class="user">
-                  <span class="name">{{ratings.username}}</span>
-                  <img class="avatar" width="12" height="12" :src="ratings.avatar">
+                  <span class="name">{{rating.username}}</span>
+                  <img class="avatar" width="12" height="12" :src="rating.avatar">
                 </div>
                 <div class="time">{{rating.rateTime}}</div>
                 <p class="text">
@@ -119,6 +119,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../../common/stylus/mixin.styl"
   .food
     position: fixed
     left: 0
@@ -223,4 +224,44 @@
         margin-left: 18px
         font-size: 14px
         color: rgb(7, 17, 27)
+      .rating-wrapper
+        padding: 0 18px
+        .rating-item
+          position: relative
+          padding: 16px 0
+          border-1px(rgba(7,17,27,0.1))
+          .user
+            position: absolute
+            right: 0
+            top: 16px
+            line-height:12px
+            font-size: 0
+            .name
+              display: inline-block
+              margin-right: 6px
+              vertical-align: top
+              font-size: 10px
+              color:rgb(147,153,159)
+            .avatar
+              border-radius: 50%
+          .time
+            margin-bottom: 6px
+            line-height: 12px
+            font-size: 10px
+            color: rgb(147,153,159)
+          .text
+            line-height: 16px
+            font-size:12px
+            color:rgb(7,17,27)
+            .icon-thumb_up, .icon-thumb_down
+              display:inline-block
+              margin-right:4px
+              vertical-align: top
+              line-height:16px
+              font-size: 12px
+            .icon-thumb_up
+              color:rgb(0,160,220)
+            .icon-thumb_down
+              color:rgb(147,153,159)
+
 </style>
