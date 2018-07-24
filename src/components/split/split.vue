@@ -7,7 +7,6 @@
 
   };
 </script>
-
 <style lang="stylus" rel="stylesheet/stylus">
   .split
     width: 100%

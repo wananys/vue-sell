@@ -9,9 +9,9 @@ Vue.use(Router)
 Vue.use(vueResource)
 
 const routes = [
-  { path: '/goods', component: goods},
-  { path: '/ratings', component: ratings},
-  { path: '/seller', component: seller}
+  {path: '/goods', component: goods},
+  {path: '/ratings', component: ratings},
+  {path: '/seller', component: seller}
 ]
 export default new Router({
   linkActiveClass: 'active',
