@@ -1,3 +1,5 @@
+项目小结请查看Issues
+
 ## Build Setup
 
 ``` bash
