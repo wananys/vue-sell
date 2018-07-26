@@ -19,13 +19,15 @@
         </div>
       </div>
       <div class="ball-container">
-        <transition-group name="drop" v-on:before-enter="beforeEnter" v-on:enter="whenEnter"
-                          v-on:after-enter="afterEnter" v-on:before-leave="beforeLeave"
-                          v-on:leave="leave" v-on:after-leave="afterLeave">
-          <div class="ball" v-for="(ball, index) in balls" v-show="ball.show" :key="index">
-            <div class="inner inner-hook"></div>
-          </div>
-        </transition-group>
+        <div  v-for="(ball, index) in balls" :key="index">
+          <transition name="drop" @before-enter="beforeDrop"
+                            @enter="dropping"
+                            @after-enter="afterDrop">
+            <div class="ball"  v-show="ball.showball">
+              <div class="inner inner-hook"></div>
+            </div>
+          </transition>
+        </div>
       </div>
       <transition name="fold">
         <div class="shopcart-list" v-show="listShow">
@@ -56,7 +58,7 @@
 
 </template>
 <script type="text/ecmascript-6">
-   import BScroll from 'better-scroll';
+  import BScroll from 'better-scroll';
   import cartcontrol from '@/components/cartcontrol/cartcontrol';
   export default{
     props: {
@@ -83,15 +85,15 @@
     data () {
       return {
         balls: [{
-          show: false
+          showball: false
         }, {
-          show: false
+          showball: false
         }, {
-          show: false
+          showball: false
         }, {
-          show: false
+          showball: false
         }, {
-          show: false
+          showball: false
         }
         ],
         dropBalls: [],
@@ -174,24 +176,23 @@
       drop (el) {
         for (let i = 0; i < this.balls.length; i++) {
           let ball = this.balls[i];
-          if (!ball.show) {
-            ball.show = true;
+          if (!ball.showball) {
             ball.el = el;
+            ball.showball = true;
             this.dropBalls.push(ball);
             return;
           }
         }
       },
-      beforeEnter (el) {
-        console.log('before enter...\n');
+      beforeDrop (el) {
         let count = this.balls.length;
-        while (count--) {
+        while(count--){
           let ball = this.balls[count];
-          if (ball.show) {
+          if(ball.showball){
             let rect = ball.el.getBoundingClientRect();
             let x = rect.left - 32;
-            let y = -(window.innerHeight - rect.top - 22);
-            el.style.display = '';
+            let y = -(window.innerHeight - rect.top -22);
+            el.style.display = 'block';
             el.style.webkitTransform = `translate3d(0,${y}px,0)`;
             el.style.transform = `translate3d(0,${y}px,0)`;
             let inner = el.getElementsByClassName('inner-hook')[0];
@@ -200,40 +201,24 @@
           }
         }
       },
-      whenEnter (el, done) {
+      dropping (el,done) {
         /* eslint-disable no-unused-vars */
-        console.log('when enter animate---\n');
         let rf = el.offsetHeight;
         this.$nextTick(() => {
-          el.style.display = '';
           el.style.webkitTransform = 'translate3d(0,0,0)';
           el.style.transform = 'translate3d(0,0,0)';
           let inner = el.getElementsByClassName('inner-hook')[0];
           inner.style.webkitTransform = 'translate3d(0,0,0)';
           inner.style.transform = 'translate3d(0,0,0)';
-          done();
+          window.setTimeout(done,400);
         });
       },
-      afterEnter (el) {
-        console.log('after enter animate...\n')
+      afterDrop (el) {
         let ball = this.dropBalls.shift();
         if (ball) {
-          ball.show = false;
+          ball.showball = false;
           el.style.display = 'none';
         }
-      },
-      beforeLeave (el) {
-        // ...
-        console.log('before leave animate...\n');
-      },
-      leave (el, done) {
-        // ...
-        console.log('leave animate...\n');
-        done()
-      },
-      afterLeave (el) {
-        // ...
-        console.log('after leave animate...\n');
       }
     },
     components: {
@@ -337,15 +322,13 @@
         width: 18px
         height: 18px
         border-radius: 50%
-        transition: all 1s
-        &.drop-enter, &.drop-leave-to
-          transition: all 0.4s cubic-bezier(0.49, -0.29, 0.75, 0.41)
-          .inner
-            width: 16px
-            height: 16px
-            border-radius: 50%
-            background: rgb(0, 160, 220)
-            transition: all 1s linear
+        transition: all 0.4s cubic-bezier(0.49, -0.29, 0.75, 0.41)
+        .inner
+          width: 16px
+          height: 16px
+          border-radius: 50%
+          background: rgb(0, 160, 220)
+          transition: all 0.4s linear
     .shopcart-list
       position: absolute
       left: 0
@@ -397,18 +380,18 @@
             position: absolute
             right: 0
             bottom: 6px
-    .list-mask
-      position: fixed
-      top: 0
-      left: 0
-      width: 100%
-      height: 100%
-      z-index: 40
-      backdrop-filter: blur(10px)
-      opacity: 1
-      background: rgba(7, 17, 27, 0.6)
-      transition: all 0.5s
-      &.fade-enter, &.fade-leave-to
-        opacity: 0
-        background: rgba(7, 17, 27, 0)
+  .list-mask
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    z-index: 40
+    backdrop-filter: blur(10px)
+    opacity: 1
+    background: rgba(7, 17, 27, 0.6)
+    transition: all 0.5s
+    &.fade-enter, &.fade-leave-to
+      opacity: 0
+      background: rgba(7, 17, 27, 0)
 </style>
