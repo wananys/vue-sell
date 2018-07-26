@@ -1,7 +1,3 @@
-# sell
-
-> sell app
-
 ## Build Setup
 
 ``` bash
