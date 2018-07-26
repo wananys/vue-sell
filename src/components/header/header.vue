@@ -225,11 +225,11 @@ export default{
         opacity: 0
         background: rgba(7, 17, 27, 0)
       .detail-wrapper
-        min-height: 100%
-        width: 100%
+        min-height: 100%   //必须
+        width: 100%   //必须
         .detail-main
-          padding-top: 64px
-          padding-bottom: 64px
+          padding-top: 64px  //不是必须
+          padding-bottom: 64px  //必须
           .name
             line-height: 16px
             text-align: center
@@ -289,11 +289,11 @@ export default{
               padding: 0 12px
               line-height: 24px
               font-size: 12px
-  .detail-close
-    position: relative
-    width: 32px
-    height: 32px
-    margin: -64px auto 0 auto
-    clear: both
-    font-size: 32px
+      .detail-close
+        position: relative
+        width: 32px
+        height: 32px
+        margin: -64px auto 0 auto
+        clear: both
+        font-size: 32px
 </style>
